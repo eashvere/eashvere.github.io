@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
         <title>Eashver Elango</title>
     </head>
@@ -12,30 +13,77 @@
         <script type="module">
             import { createApp, reactive } from 'https://unpkg.com/petite-vue?module'
 
-            createApp({
+            const store = reactive({
                 currentTab: 'about',
-                setTab(t) {
-                    this.currentTab = t;
+                age: (Math.abs(new Date() - new Date(2003,0,11)) * 3.17098e-11).toPrecision(10),
+                filters: [],
+            })
+
+            const arrayRemove = function (arr, value) { 
+                return arr.filter(function(ele){ 
+                    return ele != value; 
+                });
+            }
+
+            var findOne = function (haystack, arr) {
+                return arr.some(function (v) {
+                    return haystack.indexOf(v) >= 0;
+                });
+            };
+
+            function skillFilter(props) {
+                return {
+                    $template: '#skill-button-template',
+                    name: props.name,
+                    type: props.type,
+                    activated: false,
+                    switchButton() {
+                        if(this.activated) {
+                            store.filters = this.arrayRemove(store.filters, this.name);
+                            this.activated = false
+                        } else {
+                            store.filters.push(this.name);
+                            this.activated = true;
+                        }
+                    }
                 }
+            }
+
+            createApp({
+                store,
+                setTab(t) {
+                    store.currentTab = t;
+                },
+                currentDate() {
+                    store.age = (Math.abs(new Date() - new Date(2003,0,11)) * 3.17098e-11).toPrecision(10);
+                },
+                arrayRemove,
+                findOne,
+                skillFilter,
             }).mount()
         </script>
 
-        <div class="container" v-scope>
+        <template id="skill-button-template">
+            <input type="checkbox" class="btn-check" :id="name" autocomplete="off" @click="switchButton">
+            <label class="btn" :class="[type]" :for="name">{{ name }}</label>
+        </template>
+
+        <div class="container" v-scope @vue:mounted="setInterval(currentDate, 100);">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                  <a class="navbar-brand" role="button" @click="setTab('about')">Eashver Elango</a>
-                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <a class="navbar-brand fs-4 pe-4" role="button" @click="setTab('about')">Eashver Elango</a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                   </button>
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                      <li class="nav-item">
-                          <a class="nav-link" role="button" @click="setTab('about')">About</a>
+                      <li class="nav-item fs-6">
+                          <a class="nav-link" href="#" role="button" @click="setTab('about')">About</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" role="button" @click="setTab('projects')">Projects</a>
+                      <li class="nav-item fs-6">
+                        <a class="nav-link" href="#" role="button" @click="setTab('projects')">Projects</a>
                       </li>
-                      <li class="nav-item">
+                      <li class="nav-item fs-6">
                         <a class="nav-link" href="cv.pdf">Curriculum Vitae</a>
                       </li>
                     </ul>
@@ -43,15 +91,15 @@
                 </div>
             </nav>
             <br>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-white col-sm-8" style="width: 280px;" id="sidebar">
+                    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-white col-sm-8" style="width: 210px;" id="sidebar">
                         <div id="avatar">
                             <img src="me.jpg" class="rounded-circle" style="width: 150px;" alt="Avatar" />
                         </div>
                         <hr>
                         <div class="flex-column mb-auto" id="urls">
-                            <ul class="nav nav-pills flex-column mb-auto">
+                            <ul class="nav nav-pills flex-column align-middle mb-auto">
                                 <li class="nav-link">
                                     <i class="bi-geo-alt-fill" role="img" aria-hidden="true"></i>
                                     Seattle, WA
@@ -78,12 +126,65 @@
                         </div>
                     </div>
         
-                    <div class="col-sm" id="about" v-if="currentTab === 'about'">
-                        <h1>About</h1>
+                    <div class="col-6" id="about" v-if="store.currentTab === 'about'">
+                        <h2>About</h2>
+                        <p>
+                            Hey there! My name's Eashver Elango and I'm {{ store.age }} years old! 
+                            <br><br>
+                            Right now, I'm a first-year at the University of Washington studying computer science. 
+                            My passion is building practical applications on the cutting edge of artificial intelligence. 
+                            
+                        </p>
                     </div>
         
-                    <div class="col-sm" id="projects" v-if="currentTab === 'projects'">
-                        <h1>Projects</h1>
+                    <div class="col-8" id="projects" v-if="store.currentTab === 'projects'">
+                        <h2>Skills</h2>
+                        <div class="d-flex flex-row m-3 gap-2">
+                            <div v-scope="skillFilter({ name: 'Machine Learning', type: 'btn-outline-danger' })"></div>
+                            <div v-scope="skillFilter({ name: 'Data Visualization', type: 'btn-outline-danger' })"></div>
+                            <div v-scope="skillFilter({ name: 'Project Management', type: 'btn-outline-danger' })"></div>
+                        </div>
+                        <div class="d-flex flex-row m-3 gap-2">
+                            <div v-scope="skillFilter({ name: 'Python', type: 'btn-outline-success' })"></div>
+                            <div v-scope="skillFilter({ name: 'R', type: 'btn-outline-success' })"></div>
+                            <div v-scope="skillFilter({ name: 'Java', type: 'btn-outline-success' })"></div>
+                            <div v-scope="skillFilter({ name: 'JS/React.js', type: 'btn-outline-success' })"></div>
+                            <div v-scope="skillFilter({ name: 'C++', type: 'btn-outline-success' })"></div>
+                        </div>
+                        <h2>Past Internships</h2>
+                        <p>
+                            <div :style="{ color: findOne(store.filters, ['Machine Learning', 'Data Visualization', 'Project Management', 'Python', 'R']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
+                                <h5>Research Intern at the Vlachos Non-coding Lab</h5>
+                                <ul>
+                                    <li>Produced a novel deep learning model with Scikit-learn that accurately evaluates cancer in-patient risk for cancer-associated thrombosis, surpassing all existing risk analysis methods by as much as 37%</li>
+                                    <li>Served as main programmer of DL pipeline and heavily collaborated with in-lab post-doctorates to analyze key proteins linked to thrombosis.</li>
+                                    <li>Presented research at the virtual International Society for Thrombosis and Haemostasis Conference 2021.</li>
+                                </ul>
+                                <h6 style="display:inline">Skills Used:</h6> Python (Tensorflow), R (tidyverse/caret with ggplot2)
+                            </div>
+                            <br>
+                            <div :style="{ color: findOne(store.filters, ['Machine Learning', 'Python']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
+                                <h5>High School Intern at the UbiComp Lab</h5>
+                                <ul>
+                                    <li>Created a machine learning model that converts hand-drawn app designs into a workable app in Android Studio</li>
+                                    <li>Part of 3 person prototyping team tasked with data mining app wireframes and producing a frontend web
+                                        application for the ML model.</li>
+                                </ul>
+                                <h6 style="display:inline">Skills Used:</h6> Python (Tensorflow), Data Mining, Vanilla JS, Android
+                            </div>
+                        </p>
+
+                        <h2>Past Projects</h2>
+                        <p>
+                            <div>
+                                <h5>Discord QuizBowl Bot</h5>
+
+                            </div>
+                        </p>
+                    </div>
+
+                    <div class="col">
+
                     </div>
                 </div>
             </div>
