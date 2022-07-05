@@ -152,7 +152,11 @@
                             <div v-scope="skillFilter({ name: 'R', type: 'btn-outline-success' })"></div>
                             <div v-scope="skillFilter({ name: 'Java', type: 'btn-outline-success' })"></div>
                             <div v-scope="skillFilter({ name: 'JS/React.js', type: 'btn-outline-success' })"></div>
-                            <div v-scope="skillFilter({ name: 'C++', type: 'btn-outline-success' })"></div>
+                        </div>
+                        <div class="d-flex flex-row m-3 gap-2">
+                            <div v-scope="skillFilter({ name: 'GCP/Firebase', type: 'btn-outline-info' })"></div>
+                            <div v-scope="skillFilter({ name: 'AWS', type: 'btn-outline-info' })"></div>
+                            <div v-scope="skillFilter({ name: 'SQL', type: 'btn-outline-info' })"></div>
                         </div>
                         <h2>Past Internships</h2>
                         <p>
@@ -166,20 +170,29 @@
                                 <h6 style="display:inline">Skills Used:</h6> Python (Tensorflow), R (tidyverse/caret with ggplot2)
                             </div>
                             <br>
-                            <div :style="{ color: findOne(store.filters, ['Machine Learning', 'Python', 'JS/React.js']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
+                            <div :style="{ color: findOne(store.filters, ['Machine Learning', 'Python', 'JS/React.js', 'AWS']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
                                 <h5>High School Intern at the UbiComp Lab (2018)</h5>
                                 <ul>
                                     <li>Created a machine learning model that converts hand-drawn app designs into a workable app in Android Studio</li>
                                     <li>Part of 3 person prototyping team tasked with data mining app wireframes and producing a frontend web
                                         application for the ML model.</li>
                                 </ul>
-                                <h6 style="display:inline">Skills Used:</h6> Python (Tensorflow), Data Mining, Vanilla JS, Android
+                                <h6 style="display:inline">Skills Used:</h6> Python (Tensorflow), Data Mining, Vanilla JS, Android Development
                             </div>
                         </p>
 
                         <p class="h2">Past Projects <span class=""style="font-size: 12px;">at least the ones I'm proud of and finished...</span></p>
                         <p>
-                            <div :style="{ color: findOne(store.filters, ['JS/React.js']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
+                            <div :style="{ color: findOne(store.filters, ['JS/React.js', 'GCP/Firebase', 'Project Management']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
+                                <h5>Easter.egg (2020)</h5>
+                                <ul>
+                                    <li>Originally a group Capstone project for my senior year Special Topics in Computing class, Easter.egg aimed to recreate the experience of finding unique objects in your area through the crowdsourcing of eastereggs.</li>
+                                    <li>It features an interactive map to browse for 'eggs', directions towards those 'eggs', and a rudimentary rating system</li>
+                                    <li>Built using React Native, Firestore, and Firebase Auth</li>
+                                </ul>
+                                <h6 style="display:inline">Skills Used:</h6> React Native, Google Cloud Platform
+                            </div>
+                            <div :style="{ color: findOne(store.filters, ['JS/React.js', 'SQL']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
                                 <h5>Discord QuizBowl Bot (2019)</h5>
                                 <ul>
                                     <li>A fully functional QuizBowl proctor that can be run within a Discord Server, primarily used for training and practice tournaments</li>
