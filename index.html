@@ -16,13 +16,21 @@
                 currentTab: 'about',
                 age: (Math.abs(new Date() - new Date(2003,0,11)) * 3.17098e-11).toPrecision(10),
                 filters: [],
-            })
+            });
+
+            const setTab = function(t) {
+                store.currentTab = t;
+            };
+
+            const currentDate = function() {
+                store.age = (Math.abs(new Date() - new Date(2003,0,11)) * 3.17098e-11).toPrecision(10);
+            }
 
             const arrayRemove = function (arr, value) { 
                 return arr.filter(function(ele){ 
                     return ele != value; 
                 });
-            }
+            };
 
             var findOne = function (haystack, arr) {
                 return arr.some(function (v) {
@@ -50,12 +58,8 @@
 
             createApp({
                 store,
-                setTab(t) {
-                    store.currentTab = t;
-                },
-                currentDate() {
-                    store.age = (Math.abs(new Date() - new Date(2003,0,11)) * 3.17098e-11).toPrecision(10);
-                },
+                setTab,
+                currentDate,
                 arrayRemove,
                 findOne,
                 skillFilter,
