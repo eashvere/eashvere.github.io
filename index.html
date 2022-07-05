@@ -10,7 +10,7 @@
 
     <body> 
         <script type="module">
-            import { createApp, reactive } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
+            import { createApp, reactive } from 'https://unpkg.com/petite-vue?module'
 
             const store = reactive({
                 currentTab: 'about',
@@ -154,9 +154,9 @@
                             <div v-scope="skillFilter({ name: 'JS/React.js', type: 'btn-outline-success' })"></div>
                         </div>
                         <div class="d-flex flex-row m-3 gap-2">
-                            <div v-scope="skillFilter({ name: 'GCP/Firebase', type: 'btn-outline-info' })"></div>
-                            <div v-scope="skillFilter({ name: 'AWS', type: 'btn-outline-info' })"></div>
-                            <div v-scope="skillFilter({ name: 'SQL', type: 'btn-outline-info' })"></div>
+                            <div v-scope="skillFilter({ name: 'GCP/Firebase', type: 'btn-outline-primary' })"></div>
+                            <div v-scope="skillFilter({ name: 'AWS', type: 'btn-outline-primary' })"></div>
+                            <div v-scope="skillFilter({ name: 'SQL', type: 'btn-outline-primary' })"></div>
                         </div>
                         <h2>Past Internships</h2>
                         <p>
@@ -183,6 +183,15 @@
 
                         <p class="h2">Past Projects <span class=""style="font-size: 12px;">at least the ones I'm proud of and finished...</span></p>
                         <p>
+                            <div :style="{ color: findOne(store.filters, ['JS/React.js']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
+                                <h5>This Website!</h5>
+                                <ul>
+                                    <li>My very own portfolio website made on my own to showcase my skills as a web developer.</li>
+                                    <li>Built using <a href="https://github.com/vuejs/petite-vue" target="_blank" rel="noopener noreferrer" class="link-primary">petite-vue</a> and Bootstrap 5, hosted with Github Pages.</li>
+                                </ul>
+                                <h6 style="display:inline">Skills Used:</h6> Javascript, HTML/CSS
+                            </div>
+                            <br>
                             <div :style="{ color: findOne(store.filters, ['JS/React.js', 'GCP/Firebase', 'Project Management']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
                                 <h5>Easter.egg (2020)</h5>
                                 <ul>
@@ -192,6 +201,7 @@
                                 </ul>
                                 <h6 style="display:inline">Skills Used:</h6> React Native, Google Cloud Platform
                             </div>
+                            <br>
                             <div :style="{ color: findOne(store.filters, ['JS/React.js', 'SQL']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
                                 <h5>Discord QuizBowl Bot (2019)</h5>
                                 <ul>
