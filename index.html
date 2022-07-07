@@ -14,17 +14,12 @@
 
             const store = reactive({
                 currentTab: 'about',
-                age: (Math.abs(new Date() - new Date(2003,0,11)) * 3.17098e-11).toPrecision(10),
                 filters: [],
             });
 
             const setTab = function(t) {
                 store.currentTab = t;
             };
-
-            const currentDate = function() {
-                store.age = (Math.abs(new Date() - new Date(2003,0,11)) * 3.17098e-11).toPrecision(10);
-            }
 
             const arrayRemove = function (arr, value) { 
                 return arr.filter(function(ele){ 
@@ -59,7 +54,6 @@
             createApp({
                 store,
                 setTab,
-                currentDate,
                 arrayRemove,
                 findOne,
                 skillFilter,
@@ -71,7 +65,7 @@
             <label class="btn" :class="[type]" :for="name">{{ name }}</label>
         </template>
 
-        <div class="container" v-scope @vue:mounted="setInterval(currentDate, 100);">
+        <div class="container" v-scope>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                   <a class="navbar-brand fs-4 pe-4" role="button" @click="setTab('about')">Eashver Elango</a>
@@ -132,7 +126,7 @@
                     <div class="col-md-6" id="about" v-if="store.currentTab === 'about'">
                         <h2>About</h2>
                         <p>
-                            Hey there! My name's Eashver Elango and I'm {{ store.age }} years old! 
+                            Hey there! My name's Eashver Elango! 
                             <br><br>
                             Right now, I'm a first-year at the University of Washington studying computer science. 
                             My passion is building practical applications on the cutting edge of artificial intelligence. 
@@ -167,7 +161,7 @@
                                     <li>Served as main programmer of DL pipeline and heavily collaborated with in-lab post-doctorates to analyze key proteins linked to thrombosis.</li>
                                     <li>Presented research at the virtual International Society for Thrombosis and Haemostasis Conference 2021.</li>
                                 </ul>
-                                <h6 style="display:inline">Skills Used:</h6> Python (Tensorflow), R (tidyverse/caret with ggplot2)
+                                <h6 style="display:inline">Skills Used:</h6> Python (scikit-learn), R (tidyverse/caret with ggplot2)
                             </div>
                             <br>
                             <div :style="{ color: findOne(store.filters, ['Machine Learning', 'Python', 'JS/React.js', 'AWS']) || store.filters.length===0 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.2)' }">
